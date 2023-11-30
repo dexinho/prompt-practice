@@ -11,6 +11,7 @@ const main = () => {
   interface.question("Choose command: ", async (command) => {
     try {
       const fullCmd = command.split(" ");
+
       if (fullCmd.length === 1) {
         switch (command) {
           case "help":
@@ -83,16 +84,19 @@ const handleCd = (command) => {
   if (command === "..") {
     const currentPath = process.cwd();
     const parentPath = path.dirname(currentPath);
+
     process.chdir(parentPath);
     showCurrentPath();
   } else {
     const dirName = command;
     const newPath = path.join(process.cwd(), dirName);
+
     if (fs.existsSync(newPath) && fs.statSync(newPath).isDirectory()) {
       process.chdir(newPath);
     } else {
       console.log(`Directory "${dirName}" doesn't exist!`);
     }
+
     console.log(process.cwd());
   }
 };
@@ -106,6 +110,7 @@ const readDir = (isLoggable = true) => {
     fs.readdir(process.cwd(), (err, files) => {
       if (err) console.log(err);
       else if (isLoggable) files.forEach((file) => console.log(file));
+
       res(files);
     });
   });
@@ -116,6 +121,7 @@ const writeFile = (fileName) => {
     fs.writeFile(path.join(process.cwd(), fileName), "", "utf-8", (err) => {
       if (err) console.log(err);
       else console.log(`${fileName} created!`);
+
       res();
     });
   });
@@ -126,6 +132,7 @@ const readFile = (fileName) => {
     fs.readFile(path.join(process.cwd(), fileName), "utf-8", (err, data) => {
       if (err) console.log(err);
       else console.log(data);
+
       res();
     });
   });
@@ -136,6 +143,7 @@ const deleteFile = (fileName) => {
     fs.unlink(path.join(process.cwd(), fileName), (err) => {
       if (err) console.log(err);
       else console.log(`${fileName} deleted!`);
+
       res();
     });
   });
@@ -146,6 +154,7 @@ const deleteDir = (dirName) => {
     fs.rmdir(path.join(process.cwd(), dirName), (err) => {
       if (err) console.log(err);
       else console.log(`${dirName} deleted!`);
+
       res();
     });
   });
@@ -156,6 +165,7 @@ const makeDir = (dirName) => {
     fs.mkdir(path.join(process.cwd(), dirName), { recursive: true }, (err) => {
       if (err) console.log(err);
       else console.log(`${dirName} created!`);
+
       res();
     });
   });
@@ -170,6 +180,7 @@ const copyFileContent = async (sourceFile, destinationFile) => {
         path.join(process.cwd(), sourceFile),
         "utf-8"
       );
+
       return new Promise((res) => {
         fs.appendFile(
           path.join(process.cwd(), destinationFile),
@@ -180,6 +191,7 @@ const copyFileContent = async (sourceFile, destinationFile) => {
               console.log(
                 `Data from ${sourceFile} copied to ${destinationFile}!`
               );
+
             res();
           }
         );
